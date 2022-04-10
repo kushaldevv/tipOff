@@ -24,6 +24,7 @@ async def on_ready():
 
 @config.client.event
 async def on_message(message):
+    cmd.userFunds(str(message.author.id), 0)
     if message.author == config.client.user:
         return
     msg = message.content
@@ -53,6 +54,7 @@ async def on_message(message):
         await ret.send(cmd.printBets(str(message.author.id)))
     elif scoresRe:
         config.pbpStop = True
+        print('true')
         await ret.send(cmd.printScores(scoresRe.group(0)[14:18] + scoresRe.group(0)[8:10] + scoresRe.group(0)[11:13]))
     elif bsRe:
         gameInt = int(bsRe.group(0).ljust(12)[10:12])
@@ -91,11 +93,6 @@ async def on_message(message):
         except:
             None
     elif betRe:
-        f = open ('bank.json', "r")
-        data = json.loads(f.read())
-        if str(message.author.id) not in data:
-            cmd.userFunds(message.author.id, 1000)
-        f.close()
         gameNum = int(betRe.group(1))
         bettingTeam = str(cmd.isTeam(betRe.group(2)))
         if (gameNum <= len(config.curr) and bettingTeam != "No team" and cmd.correctTeam(config.curr[gameNum], bettingTeam) 
