@@ -1,2 +1,1 @@
-# tipOff
-Discord bot
+# tipOff, NBA discord bot
